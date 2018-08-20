@@ -96,7 +96,7 @@ func (srv *Server) Methods() map[string]Method {
 }
 
 // MethodIsRO returns true if method exists and read-only
-func (srv Server) MethodIsRO(method string) bool {
+func (srv *Server) MethodIsRO(method string) bool {
 	srv.mux.RLock()
 	methods := *srv.methods
 	srv.mux.RUnlock()
