@@ -63,11 +63,13 @@ func (srv *Server) connectDB(uri string) error {
 	return nil
 }
 
+// Logger holds database logging via given logger
 type Logger struct {
 	lg    loggers.Contextual
 	debug bool
 }
 
+// Log message via logger
 func (l Logger) Log(level pgx.LogLevel, msg string, data map[string]interface{}) {
 	if l.debug {
 		l.lg.Debugf("DB[%d]:%s (%+v)", level, msg, data)

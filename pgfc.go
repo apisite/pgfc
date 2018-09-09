@@ -1,4 +1,4 @@
-// package pgfc holds pg functions call methods
+// Package pgfc holds pg functions call methods
 package pgfc
 
 import (
@@ -56,7 +56,7 @@ type Method struct {
 	Out      *[]OutDef         `json:",omitempty"`
 }
 
-// DB holds RPC methods
+// Server holds RPC methods
 type Server struct {
 	dbh       *pgx.ConnPool
 	config    Config
@@ -67,28 +67,35 @@ type Server struct {
 }
 
 const (
-	// err = rows.Scan(&r.Name, &r.Class, &r.Func, &r.Anno, &r.Sample, &r.Result, &r.IsRO, &r.IsSet, &r.IsStruct)
+	// SQLMethod is the SQL query for fetching method list
+	// Results: err = rows.Scan(&r.Name, &r.Class, &r.Func, &r.Anno, &r.Sample, &r.Result, &r.IsRO, &r.IsSet, &r.IsStruct)
 	SQLMethod = "select code, nspname, proname, anno, sample, result, is_ro, is_set, is_struct from %s($1)"
-	// err = rows.Scan(&r.Name, &r.Type, &r.Required, &r.Default, &r.Anno)
+	// SQLInArgs is the SQL query for fetching method arguments definition
+	// Results: err = rows.Scan(&r.Name, &r.Type, &r.Required, &r.Default, &r.Anno)
 	SQLInArgs = "select arg, type, required, def_val, anno from %s($1)"
-	// err = rows.Scan(&r.Name, &r.Type, &r.Anno)
+	// SQLOutArgs is the SQL query for fetching method results definition
+	// Results: err = rows.Scan(&r.Name, &r.Type, &r.Anno)
 	SQLOutArgs = "select arg, type, anno from %s($1)"
 )
 
-func NewServer(cfg Config, log loggers.Contextual, uri string) (*Server, error) {
+// NewServer returns pgfc server object
+func NewServer(cfg Config, log loggers.Contextual, uri string, dbh *pgx.ConnPool) (*Server, error) {
 
-	srv := Server{log: log, config: cfg}
-	err := srv.connectDB(uri)
-	if err != nil {
-		return nil, err
+	srv := Server{log: log, config: cfg, dbh: dbh}
+	if dbh == nil {
+		err := srv.connectDB(uri)
+		if err != nil {
+			return nil, err
+		}
 	}
-	err = srv.loadMethods(nil)
+	err := srv.loadMethods(nil)
 	if err != nil {
 		return nil, err
 	}
 	return &srv, nil
 }
 
+// Methods returns methods map
 func (srv *Server) Methods() map[string]Method {
 	srv.mux.RLock()
 	defer srv.mux.RUnlock()
@@ -107,6 +114,7 @@ func (srv *Server) MethodIsRO(method string) bool {
 	return m.IsRO
 }
 
+// loadMethods loads methods metadata from database
 func (srv *Server) loadMethods(nsp *string) error {
 	sql := fmt.Sprintf(SQLMethod, srv.config.IndexFunc)
 	rows, err := srv.dbh.Query(sql, nsp)
@@ -152,6 +160,7 @@ func (srv *Server) loadMethods(nsp *string) error {
 	return nil
 }
 
+// loadInArgs fetches method args metadata from database
 func (srv *Server) loadInArgs(method string) (*map[string]InDef, error) {
 	sql := fmt.Sprintf(SQLInArgs, srv.config.InDefFunc)
 	rows, err := srv.dbh.Query(sql, method)
@@ -174,6 +183,7 @@ func (srv *Server) loadInArgs(method string) (*map[string]InDef, error) {
 	return &rv, nil
 }
 
+// loadOutArgs fetches method result metadata from database
 func (srv *Server) loadOutArgs(method string) (*[]OutDef, error) {
 	sql := fmt.Sprintf(SQLOutArgs, srv.config.OutDefFunc)
 	rows, err := srv.dbh.Query(sql, method)
