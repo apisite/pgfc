@@ -1,0 +1,5 @@
+package: github.com/apisite/pgfc
+import:
+- package: github.com/jackc/pgx
+- package: github.com/pkg/errors
+- package: gopkg.in/birkirb/loggers.v1
