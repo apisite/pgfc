@@ -15,7 +15,6 @@
 [gl2]: LICENSE
 
 <p align="center">
-  <span>English</span> |
   <a href="../../README.md">English</a> |
   <span>Русский</span>
 </p>
