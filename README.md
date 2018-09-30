@@ -14,5 +14,15 @@
 [gl1]: https://img.shields.io/github/license/apisite/pgfc.svg
 [gl2]: LICENSE
 
-* Project status: in active development
+<p align="center">
+  <span>English</span> |
+  <a href="docs/ru/README.md">Pусский</a>
+</p>
 
+Project status: PoC is ready
+
+## License
+
+The MIT License (MIT), see [LICENSE](LICENSE).
+
+Copyright (c) 2018 Aleksei Kovrizhkin <lekovr+apisite@gmail.com>
