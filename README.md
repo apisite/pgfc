@@ -8,7 +8,7 @@
 
 [gc1]: https://goreportcard.com/badge/apisite/pgfc
 [gc2]: https://goreportcard.com/report/github.com/apisite/pgfc
-[gr1]: https://img.shields.io/github/release/apisite/pgfc.svg
+[gr1]: https://img.shields.io/github/release/apisite/pgfc/all.svg
 [gr2]: https://github.com/apisite/pgfc/releases
 [sz]: https://img.shields.io/github/languages/code-size/apisite/pgfc.svg
 [gl1]: https://img.shields.io/github/license/apisite/pgfc.svg
