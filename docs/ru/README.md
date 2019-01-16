@@ -69,7 +69,7 @@ rv, err := db.Call("method", args)
 
 См. также: [gin-pgfc](https://github.com/apisite/gin-pgfc).
 
-TODO: example/simple.go
+**TODO:** example/simple.go
 
 ## Требования к БД
 
@@ -80,8 +80,7 @@ TODO: example/simple.go
 * куда положить, для документации, комментарии к аргументам функций?
 * куда положить, для документации, пример вызова функции?
 
-
-### См. также
+## См. также
 
 * [gin-pgfc](https://github.com/apisite/gin-pgfc) - клей для gin-gonic
 * [apisite](https://github.com/apisite/apisite) - фреймворк, использующий pgfc в шаблонах и внешних вызовах
