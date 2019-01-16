@@ -6,7 +6,7 @@
 ---
 
 # pgfc
-> golang пакет для вызова функций postgresql
+> golang package для вызова функций postgresql
 
 [![GoCard][gc1]][gc2]
  [![GitHub Release][gr1]][gr2]
@@ -25,10 +25,10 @@
 <a target="_blank" rel="noopener noreferrer" href="../src/arch.png"><img src="../src/arch.png" title="Архитектура проекта" style="max-width:100%;"></a>
 </p>
 
-* Статус проекта: Реализован концепт
-
 [pgfc](https://github.com/apisite/pgfc) - golang package для выполнения в Postgresql запросов вида `SELECT * FROM function(...)` в случае, когда список и сигнатуры функций заранее неизвестны.
 Проект имеет целью создание универсальной прослойки между прикладными (SQL) разработчиками и разработчиками фронтендов.
+
+**Статус проекта:** Реализован концепт
 
 ## Использование
 
