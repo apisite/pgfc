@@ -17,41 +17,26 @@
 <p align="center">
   <a href="../../README.md">English</a> |
   <span>Русский</span>
+
+![Архитектура проекта](../src/arch.png)
 </p>
 
 * Статус проекта: Реализован концепт
 
-[pgfc](https://github.com/apisite/pgfc) - golang библиотека для вызова хранимых функций postgresql без создания структур golang, описывающих их аргументы и результат.
+[pgfc](https://github.com/apisite/pgfc) - golang package для выполнения в Postgresql запросов вида `SELECT * FROM function(...)` в случае, когда список и сигнатуры функций заранее неизвестны.
+Проект имеет целью создание универсальной прослойки между прикладными (SQL) разработчиками и разработчиками фронтендов.
 
-Эта библиотека представляет собой вариант доказательства гипотезы "Большую часть операций с БД можно свести к запросу вида `SELECT * FROM function(args)`" применительно к postgresql и предназначена для создания универсальной прослойки между прикладными (SQL) разработчиками и разработчиками фронтендов.
+## Использование
 
-## Алгоритм
+### Postgresql
 
-```go
-db := pgfc.NewServer(dsn)
-args := map[string]interface{}{
-	"arg1": "name",
-	"arg2": 1
-}
-rv, err := db.Call("method", args)
-```
-Этот пример показывает, что код на go не должен заранее знать, какие есть функции, какие у них аргументы и результаты. Это позволяет предоставить универсальный доступ к хранимым функциям postgresql для серверных шаблонов и внешних клиентов. Пример такого решения - [gin-pgfc].
-
-## Требования к БД
-
-Список хранимых функций, описание их аргументов и результатов можно получить из БД простыми SQL, но при этом возникают вопросы:
-
-* как отличить служебную функцию от доступной извне?
-* как, не меняя клиентов, изменить имя вызываемой извне функции?
-* куда положить, для документации, комментарии к аргументам функций?
-* куда положить, для документации, пример вызова функции?
-
-Вариант ответа на эти вопросы - требование наличия в БД функций
+В БД должны быть созданы функции (код из конфигурации pgfc):
 
 	InDefFunc     string `long:"db_indef" default:"func_args" description:"Argument definition function"`
 	OutDefFunc    string `long:"db_outdef" default:"func_result" description:"Result row definition function"`
 	IndexFunc     string `long:"db_index" default:"index" description:"Available functions list"`
 
+Эти функции используются для загрузки метаданных:
 
 	// SQLMethod is the SQL query for fetching method list
 	// Results: err = rows.Scan(&r.Name, &r.Class, &r.Func, &r.Anno, &r.Sample, &r.Result, &r.IsRO, &r.IsSet, &r.IsStruct)
@@ -63,14 +48,32 @@ rv, err := db.Call("method", args)
 	// Results: err = rows.Scan(&r.Name, &r.Type, &r.Anno)
 	SQLOutArgs = "select arg, type, anno from %s($1)"
 
-Пример реализации такого функционала  - pomasql/rpc
+Пример реализации такого функционала -  [pomasql/rpc](https://github.com/pomasql/rpc)
 
-## Использование
+### Golang
+
+```go
+db := pgfc.NewServer(dsn)
+args := map[string]interface{}{
+	"arg1": "name",
+	"arg2": 1
+}
+rv, err := db.Call("method", args)
+```
+
+См. также: [gin-pgfc](https://github.com/apisite/gin-pgfc).
 
 TODO: example/simple.go
-```
 
-```
+## Требования к БД
+
+Наличие в БД функций для метаданных является вариантом ответов на следующие вопросы:
+
+* как отличить служебную функцию от доступной извне?
+* как, не меняя клиентов, изменить имя вызываемой извне функции?
+* куда положить, для документации, комментарии к аргументам функций?
+* куда положить, для документации, пример вызова функции?
+
 
 ### См. также
 
