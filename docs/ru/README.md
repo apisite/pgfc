@@ -36,21 +36,21 @@
 
 В БД должны быть созданы функции (код из конфигурации pgfc):
 
+	IndexFunc     string `long:"db_index" default:"index" description:"Available functions list"`
 	InDefFunc     string `long:"db_indef" default:"func_args" description:"Argument definition function"`
 	OutDefFunc    string `long:"db_outdef" default:"func_result" description:"Result row definition function"`
-	IndexFunc     string `long:"db_index" default:"index" description:"Available functions list"`
 
 Эти функции используются для загрузки метаданных:
 
-	// SQLMethod is the SQL query for fetching method list
+	// SQLMethod is the SQL query for fetching method list via IndexFunc
 	// Results: err = rows.Scan(&r.Name, &r.Class, &r.Func, &r.Anno, &r.Sample, &r.Result, &r.IsRO, &r.IsSet, &r.IsStruct)
 	SQLMethod = "select code, nspname, proname, anno, sample, result, is_ro, is_set, is_struct from %s($1)"
 
-	// SQLInArgs is the SQL query for fetching method arguments definition
+	// SQLInArgs is the SQL query for fetching method arguments definition via InDefFunc
 	// Results: err = rows.Scan(&r.Name, &r.Type, &r.Required, &r.Default, &r.Anno)
 	SQLInArgs = "select arg, type, required, def_val, anno from %s($1)"
 
-	// SQLOutArgs is the SQL query for fetching method results definition
+	// SQLOutArgs is the SQL query for fetching method results definition via OutDefFunc
 	// Results: err = rows.Scan(&r.Name, &r.Type, &r.Anno)
 	SQLOutArgs = "select arg, type, anno from %s($1)"
 
