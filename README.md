@@ -1,3 +1,10 @@
+<p align="center">
+  <span>English</span> |
+  <a href="docs/ru/README.md#pgfc">Pусский</a>
+</p>
+
+---
+
 # pgfc
 > golang package for postgresql functions calling
 
@@ -15,11 +22,10 @@
 [gl2]: LICENSE
 
 <p align="center">
-  <span>English</span> |
-  <a href="docs/ru/README.md">Pусский</a>
+<a target="_blank" rel="noopener noreferrer" href="../src/arch.png"><img src="docs/src/arch.png" title="Архитектура проекта" style="max-width:100%;"></a>
 </p>
 
-Project status: PoC is ready
+**Project status:** PoC is ready
 
 ## License
 
