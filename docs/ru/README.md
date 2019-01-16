@@ -45,9 +45,11 @@
 	// SQLMethod is the SQL query for fetching method list
 	// Results: err = rows.Scan(&r.Name, &r.Class, &r.Func, &r.Anno, &r.Sample, &r.Result, &r.IsRO, &r.IsSet, &r.IsStruct)
 	SQLMethod = "select code, nspname, proname, anno, sample, result, is_ro, is_set, is_struct from %s($1)"
+
 	// SQLInArgs is the SQL query for fetching method arguments definition
 	// Results: err = rows.Scan(&r.Name, &r.Type, &r.Required, &r.Default, &r.Anno)
 	SQLInArgs = "select arg, type, required, def_val, anno from %s($1)"
+
 	// SQLOutArgs is the SQL query for fetching method results definition
 	// Results: err = rows.Scan(&r.Name, &r.Type, &r.Anno)
 	SQLOutArgs = "select arg, type, anno from %s($1)"
