@@ -1,3 +1,10 @@
+<p align="center">
+  <a href="../../README.md">English</a> |
+  <span>Русский</span>
+</p>
+
+---
+
 # pgfc
 > golang пакет для вызова функций postgresql
 
@@ -15,10 +22,7 @@
 [gl2]: LICENSE
 
 <p align="center">
-  <a href="../../README.md">English</a> |
-  <span>Русский</span>
-
-![Архитектура проекта](../src/arch.png)
+<a target="_blank" rel="noopener noreferrer" href="../src/arch.png"><img src="../src/arch.png" title="Архитектура проекта" style="max-width:100%;"></a>
 </p>
 
 * Статус проекта: Реализован концепт
